@@ -14,8 +14,8 @@ const Head = () => {
         <div className='flex col-span-1'>
             <img
             onClick={() => toogleMenuHandler()}
-            className="h-8 cursor-pointer" alt="menu" src="https://cdn.icon-icons.com/icons2/2596/PNG/512/hamburger_button_menu_icon_155296.png" />
-            <a href='/'><img className="h-8 mx-2" alt="ytlogo" src={logo} /></a>
+            className="h-8 m-2 cursor-pointer" alt="menu" src="https://cdn.icon-icons.com/icons2/2596/PNG/512/hamburger_button_menu_icon_155296.png" />
+            <a href='/'><img className="h-12 mx-2" alt="ytlogo" src={logo} /></a>
         </div>
         
         <div className='col-span-10 px-10'>
