@@ -11,19 +11,19 @@ const Head = () => {
   useEffect(() => {
     //MAKE AN API CALL AFTER EVERY KEY PRESS
     //IF DIFF B/W TWO API CALLS IS LESS THAN 200MS DECLINE API CALL
-
+    const getSearchSuggestions = async () => {
+        const data = await fetch(YOUTUBE_SEARCH_SUGGESTIONS_API + searchQuery);
+        const json = await data.json();
+        setSuggestions(json[1]);
+        // console.log("api call - "+searchQuery);
+      };
     const timer = setTimeout(() => getSearchSuggestions(), 200);
     return () => {
       clearTimeout(timer);
     };
   }, [searchQuery]);
 
-  const getSearchSuggestions = async () => {
-    const data = await fetch(YOUTUBE_SEARCH_SUGGESTIONS_API + searchQuery);
-    const json = await data.json();
-    setSuggestions(json[1]);
-    // console.log("api call - "+searchQuery);
-  };
+  
 
   const dispatch = useDispatch();
   const toogleMenuHandler = () => {
