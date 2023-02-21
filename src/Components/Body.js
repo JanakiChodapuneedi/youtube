@@ -1,7 +1,6 @@
 import React from 'react'
 import MainContainer from './MainContainer';
 import SideBar from './SideBar';
-import VideoCard from './VideoCard'
 
 const Body = () => {
   return (
