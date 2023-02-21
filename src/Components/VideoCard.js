@@ -10,7 +10,7 @@ const VideoCard = ({ info }) => {
       <img className="rounded-lg" src={thumbnails.medium.url} />
       <div className="font-bold">{channelTitle}</div>
       <div>{title}</div>
-      <div>{statistics.viewCount} views</div>
+      <div>{statistics.viewCount} views </div>
       <div>{statistics.likeCount} Likes</div>
     </div>
   );
