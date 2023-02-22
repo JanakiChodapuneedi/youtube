@@ -1,23 +1,34 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import logo from "../logo.png";
 import { toogleMenu } from "../utils/appSlice";
 import { useEffect, useState } from "react";
 import { YOUTUBE_SEARCH_SUGGESTIONS_API } from "../utils/constants";
-
+import { cacheResults } from "../utils/searchSlice";
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const searchCache= useSelector(store=>store.search);  
+  const dispatch = useDispatch();
+  const getSearchSuggestions = async () => {
+    const data = await fetch(YOUTUBE_SEARCH_SUGGESTIONS_API + searchQuery);
+    const json = await data.json();
+     setSuggestions(json[1]);
+
+     dispatch(cacheResults({
+       [searchQuery]:json[1],
+     }));
+      console.log("api call - "+searchQuery);
+   };
   useEffect(() => {
-    //MAKE AN API CALL AFTER EVERY KEY PRESS
+        //MAKE AN API CALL AFTER EVERY KEY PRESS
     //IF DIFF B/W TWO API CALLS IS LESS THAN 200MS DECLINE API CALL
-    const getSearchSuggestions = async () => {
-        const data = await fetch(YOUTUBE_SEARCH_SUGGESTIONS_API + searchQuery);
-        const json = await data.json();
-        setSuggestions(json[1]);
-        // console.log("api call - "+searchQuery);
-      };
-    const timer = setTimeout(() => getSearchSuggestions(), 200);
+     const timer = setTimeout(() => {
+      
+    if(searchCache[searchQuery]){
+        setSuggestions(searchCache[searchQuery])
+    }else{    
+        getSearchSuggestions()}},200)
     return () => {
       clearTimeout(timer);
     };
@@ -25,10 +36,17 @@ const Head = () => {
 
   
 
-  const dispatch = useDispatch();
   const toogleMenuHandler = () => {
     dispatch(toogleMenu());
   };
+
+
+
+
+
+
+
+
 
   return (
     <div className="sticky top-0 grid grid-flow-col p-2 m-2 shadow-lg bg-white">
