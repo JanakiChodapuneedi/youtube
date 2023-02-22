@@ -8,45 +8,40 @@ const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const searchCache= useSelector(store=>store.search);  
+  const searchCache = useSelector((store) => store.search);
   const dispatch = useDispatch();
+
   const getSearchSuggestions = async () => {
     const data = await fetch(YOUTUBE_SEARCH_SUGGESTIONS_API + searchQuery);
     const json = await data.json();
-     setSuggestions(json[1]);
+    setSuggestions(json[1]);
 
-     dispatch(cacheResults({
-       [searchQuery]:json[1],
-     }));
-      console.log("api call - "+searchQuery);
-   };
+    dispatch(
+      cacheResults({
+        [searchQuery]: json[1],
+      })
+    );
+    console.log("api call - " + searchQuery);
+  };
+
   useEffect(() => {
-        //MAKE AN API CALL AFTER EVERY KEY PRESS
+    //MAKE AN API CALL AFTER EVERY KEY PRESS
     //IF DIFF B/W TWO API CALLS IS LESS THAN 200MS DECLINE API CALL
-     const timer = setTimeout(() => {
-      
-    if(searchCache[searchQuery]){
-        setSuggestions(searchCache[searchQuery])
-    }else{    
-        getSearchSuggestions()}},200)
+    const timer = setTimeout(() => {
+      if (searchCache[searchQuery]) {
+        setSuggestions(searchCache[searchQuery]);
+      } else {
+        getSearchSuggestions();
+      }
+    }, 200);
     return () => {
       clearTimeout(timer);
     };
   }, [searchQuery]);
 
-  
-
   const toogleMenuHandler = () => {
     dispatch(toogleMenu());
   };
-
-
-
-
-
-
-
-
 
   return (
     <div className="sticky top-0 grid grid-flow-col p-2 m-2 shadow-lg bg-white">
@@ -64,8 +59,8 @@ const Head = () => {
 
       <div className="col-span-10 px-10">
         <input
-            onFocus={()=>setShowSuggestions(true)}
-            onBlur={()=>setShowSuggestions(false)}
+          onFocus={() => setShowSuggestions(true)}
+          onBlur={() => setShowSuggestions(false)}
           className="w-1/2 px-5 border  border-gray-400 p-2 rounded-l-full"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -74,17 +69,17 @@ const Head = () => {
         <button className="border border-gray-400 p-2 rounded-r-full">
           🔍{" "}
         </button>
-        { showSuggestions && (
-        <div className="fixed bg-white px-5 py-2 w-1/2 rounded-lg border border-gray-100">
-          <ul>
-            {suggestions.map((s) => (
-              <li key={s} className=" py-2 hover:bg-gray-100">
-                {" "}
-                🔍 {s}{" "}
-              </li>
-            ))}
-          </ul>
-        </div>
+        {showSuggestions && (
+          <div className="fixed bg-white px-5 py-2 w-1/2 rounded-lg border border-gray-100">
+            <ul>
+              {suggestions.map((s) => (
+                <li key={s} className=" py-2 hover:bg-gray-100">
+                  {" "}
+                  🔍 {s}{" "}
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
       </div>
       <div className="col-span-1">
