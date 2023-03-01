@@ -7,5 +7,5 @@ export const YOUTUBE_VIDEOS_API =  "https://youtube.googleapis.com/youtube/v3/vi
 
 export const YOUTUBE_SEARCH_SUGGESTIONS_API = "https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=";
 
-
+export const LIVE_CHAT_COUNT = 10;
  // https://console.developers.google.com/apis/api/youtube.googleapis.com/overview?project=418169399290 

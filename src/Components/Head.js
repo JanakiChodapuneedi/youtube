@@ -21,7 +21,7 @@ const Head = () => {
         [searchQuery]: json[1],
       })
     );
-    console.log("api call - " + searchQuery);
+    //console.log("api call - " + searchQuery);
   };
 
   useEffect(() => {
